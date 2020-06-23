@@ -10,6 +10,7 @@ use App\Entity\User;
 use Faker\Factory;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
+
 class AppFixtures extends Fixture
 {
     /**
@@ -19,6 +20,7 @@ class AppFixtures extends Fixture
      */
     
     private $encoder;
+    
 
     public function __construct(UserPasswordEncoderInterface $encoder)
     {
