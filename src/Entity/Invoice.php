@@ -35,7 +35,7 @@ use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\OrderFilter;
  *      }
  *  },
  *  attributes={
- *      "pagination_enabled"=true,
+ *      "pagination_enabled"=false,
  *      "order": {"sentAt":"asc"}
  *  },
  *  normalizationContext={"groups"={ "invoices_read"} },
