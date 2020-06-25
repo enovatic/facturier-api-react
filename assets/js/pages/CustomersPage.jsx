@@ -38,7 +38,7 @@ const CustomersPage = (props) => {
   };
   // Gestion de la recherche
   const handleSearch = ({ currentTarget }) => {
-    setSearch(currentTarget);
+    setSearch(currentTarget.value);
     setCurrentPage(1);
   };
 
