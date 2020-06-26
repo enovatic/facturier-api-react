@@ -4,7 +4,7 @@ import CustomersAPI from "../services/customersAPI";
 
 const CustomersPage = (props) => {
   const [customers, setCustomers] = useState([]);
-  const [currentPage, setCurrentPage] = useState(3);
+  const [currentPage, setCurrentPage] = useState(1);
   const [search, setSearch] = useState("");
 
   const fetchCustomers = async () => {
