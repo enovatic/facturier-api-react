@@ -1,6 +1,8 @@
 import moment from "moment";
 import React, { useEffect, useState } from "react";
 import Pagination from "../components/Pagination";
+import { Link } from "react-router-dom";
+
 import InvoicesAPI from "../services/invoicesAPI";
 
 const STATUS_CLASSES = {
@@ -82,7 +84,12 @@ const InvoicesPage = (props) => {
 
   return (
     <>
-      <h1>Liste des factures</h1>
+      <div className="d-flex justify-content-between align-items-center">
+        <h1>Liste des factures</h1>
+        <Link className="btn btn-primary" to="/invoices/new">
+          Créer une facture
+        </Link>
+      </div>
       <div className="form-group">
         <input
           type="text"
@@ -124,9 +131,12 @@ const InvoicesPage = (props) => {
                 {invoice.amount.toLocaleString()} €
               </td>
               <td>
-                <button className="btn btn-sm btn-outline-primary mr-1">
+                <Link
+                  to={"/invoices/" + invoice.id}
+                  className="btn btn-sm btn-outline-primary mr-1"
+                >
                   Editer
-                </button>
+                </Link>
                 &nbsp;
                 <button
                   className="btn btn-sm btn-outline-danger"

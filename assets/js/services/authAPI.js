@@ -1,6 +1,5 @@
 import axios from "axios";
 import jwtDecode from "jwt-decode";
-import JwtDecode from "jwt-decode";
 
 // Déconnexion (suppression du token LocalStorage et sur Axios)
 function logout() {
@@ -15,14 +14,13 @@ function logout() {
 
 function authenticate(credentials) {
   return axios
-    .post("http://127.0.0.1:8000/api/login_check", credentials)
+    .post("http://localhost:8000/api/login_check", credentials)
     .then((response) => response.data.token)
     .then((token) => {
-      // Je stocke le token dns le Local Storage
+      // Je stocke le token dans mon localStorage
       window.localStorage.setItem("authToken", token);
-
-      // On préviens axios qu'on a maintenant un header par défaut sur toutes nos futures requetes HTTP
-      setAxiosToken();
+      // On prévient Axios qu'on a maintenant un header par défaut sur toutes nos futures requetes HTTP
+      setAxiosToken(token);
     });
 }
 
@@ -45,9 +43,9 @@ function setup() {
   // Si le token est valide
 
   if (token) {
-    const { exp: expiration } = JwtDecode(token);
+    const { exp: expiration } = jwtDecode(token);
     if (expiration * 1000 > new Date().getTime()) {
-      setAxiosToken();
+      setAxiosToken(token);
     }
   }
 }
@@ -59,7 +57,7 @@ function setup() {
 function isAuthenticated() {
   const token = window.localStorage.getItem("authToken");
   if (token) {
-    const { exp: expiration } = JwtDecode(token);
+    const { exp: expiration } = jwtDecode(token);
     if (expiration * 1000 > new Date().getTime()) {
       return true;
     }
