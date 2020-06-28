@@ -2,10 +2,10 @@
 
 namespace App\Repository;
 
-use App\Entity\User;
 use App\Entity\Invoice;
-use Doctrine\Common\Persistence\ManagerRegistry;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Symfony\Bridge\Doctrine\RegistryInterface;
+use App\Entity\User;
 
 /**
  * @method Invoice|null find($id, $lockMode = null, $lockVersion = null)
@@ -15,7 +15,7 @@ use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
  */
 class InvoiceRepository extends ServiceEntityRepository
 {
-    public function __construct(ManagerRegistry $registry)
+    public function __construct(RegistryInterface $registry)
     {
         parent::__construct($registry, Invoice::class);
     }

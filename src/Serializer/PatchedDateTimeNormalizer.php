@@ -11,8 +11,6 @@
 
 namespace App\Serializer;
 
-use DateTimeImmutable;
-use DateTimeInterface;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
 use Symfony\Component\Serializer\Exception\InvalidArgumentException;
@@ -51,7 +49,7 @@ class PatchedDateTimeNormalizer implements NormalizerInterface, DenormalizerInte
         if (!\is_array($defaultContext)) {
             @trigger_error('Passing configuration options directly to the constructor is deprecated since Symfony 4.2, use the default context instead.', E_USER_DEPRECATED);
 
-            $defaultContext = [self::FORMAT_KEY => (string) $defaultContext];
+            $defaultContext = [self::FORMAT_KEY => (string)$defaultContext];
             $defaultContext[self::TIMEZONE_KEY] = $timezone;
         }
 
@@ -112,7 +110,7 @@ class PatchedDateTimeNormalizer implements NormalizerInterface, DenormalizerInte
             $dateTimeErrors = \DateTime::class === $class ? \DateTime::getLastErrors() : \DateTimeImmutable::getLastErrors();
 
             throw new NotNormalizableValueException(sprintf(
-                'Parsing datetime string "%s" using format "%s" resulted in %d errors:'."\n".'%s',
+                'Parsing datetime string "%s" using format "%s" resulted in %d errors:' . "\n" . '%s',
                 $data,
                 $dateTimeFormat,
                 $dateTimeErrors['error_count'],
@@ -124,10 +122,9 @@ class PatchedDateTimeNormalizer implements NormalizerInterface, DenormalizerInte
             return \DateTime::class === $class ? new \DateTime($data, $timezone) : new \DateTimeImmutable($data, $timezone);
         } catch (\Exception $e) {
 
-            if($context['disable_type_enforcement'] ?? false) {
+            if ($context['disable_type_enforcement'] ?? false) {
                 return $data;
             }
-
 
             throw new NotNormalizableValueException($e->getMessage(), $e->getCode(), $e);
         }

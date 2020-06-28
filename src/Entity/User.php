@@ -12,11 +12,10 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
-
 /**
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
  * @ApiResource(
- *      normalizationContext={"groups"={"users_read"}}
+ *  normalizationContext={"groups"={"users_read"}}
  * )
  * @UniqueEntity("email", message="Un utilisateur ayant cette adresse email existe déjà")
  */
@@ -33,7 +32,7 @@ class User implements UserInterface
     /**
      * @ORM\Column(type="string", length=180, unique=true)
      * @Groups({"customers_read", "invoices_read", "invoices_subresource", "users_read"})
-     * @Assert\NotBlank(message="L'adresse email doit être renseigné !")
+     * @Assert\NotBlank(message="L'email doit être renseigné !")
      * @Assert\Email(message="L'adresse email doit avoir un format valide !")
      */
     private $email;
@@ -47,35 +46,27 @@ class User implements UserInterface
      * @var string The hashed password
      * @ORM\Column(type="string")
      * @Assert\NotBlank(message="Le mot de passe est obligatoire")
-     * @Assert\Length(min=5, minMessage="Le mot de passe doit faire plus de 5 caractères !")
      */
     private $password;
 
     /**
      * @ORM\Column(type="string", length=255)
      * @Groups({"customers_read", "invoices_read", "invoices_subresource", "users_read"})
-     * @Assert\Length(
-     *      min=3, minMessage="Le prénom doit faire plus de 3 caractères !",
-     *      max=255, maxMessage="Le prénom doit faire moins de 255 caractères !"
-     * 
-     * )
+     * @Assert\NotBlank(message="Le prénom est obligatoire")
+     * @Assert\Length(min=3, minMessage="Le prénom doit faire entre 3 et 255 caractères", max=255, maxMessage="Le prénom doit faire entre 3 et 255 caractères")
      */
     private $firstName;
 
     /**
      * @ORM\Column(type="string", length=255)
      * @Groups({"customers_read", "invoices_read", "invoices_subresource", "users_read"})
-     * @Assert\NotBlank(message="Le prénom est obligatoire")
-     * @Assert\Length(
-     *      min=3, minMessage="Le nom doit faire plus de 3 caractères !",
-     *      max=255, maxMessage="Le nom doit faire moins de 255 caractères !"
-     * 
-     * )
+     * @Assert\NotBlank(message="Le nom de famille est obligatoire")
+     * @Assert\Length(min=3, minMessage="Le nom de famille doit faire entre 3 et 255 caractères", max=255, maxMessage="Le nom de famille doit faire entre 3 et 255 caractères")
      */
     private $lastName;
 
     /**
-     * @ORM\OneToMany(targetEntity=Customer::class, mappedBy="user")
+     * @ORM\OneToMany(targetEntity="App\Entity\Customer", mappedBy="user")
      */
     private $customers;
 
@@ -108,7 +99,7 @@ class User implements UserInterface
      */
     public function getUsername(): string
     {
-        return (string) $this->email;
+        return (string)$this->email;
     }
 
     /**
@@ -135,7 +126,7 @@ class User implements UserInterface
      */
     public function getPassword(): string
     {
-        return (string) $this->password;
+        return (string)$this->password;
     }
 
     public function setPassword(string $password): self

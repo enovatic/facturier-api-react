@@ -1,28 +1,27 @@
 <?php
 
-
 namespace App\Controller;
 
 use App\Entity\Invoice;
+use Symfony\Component\Routing\Annotation\Route;
 use Doctrine\Common\Persistence\ObjectManager;
 
-class InvoiceIncrementationController {
+class InvoiceIncrementationController
+{
+    /** @var ObjectManager */
+    private $manager;
 
-    /**
-     * @var ObjectManager
-     */
-
-    public function __construct(ObjectManager $manager) {
+    public function __construct(ObjectManager $manager)
+    {
         $this->manager = $manager;
     }
 
-    public function __invoke(Invoice $data) {
-
+    public function __invoke(Invoice $data)
+    {
         $data->setChrono($data->getChrono() + 1);
 
         $this->manager->flush();
 
         return $data;
-
     }
 }
