@@ -2,8 +2,8 @@ import React, { useState, useEffect } from "react";
 import Field from "../components/forms/Field";
 import Select from "../components/forms/Select";
 import { Link } from "react-router-dom";
-import CustomersAPI from "../services/customersAPI";
-import InvoicesAPI from "../services/invoicesAPI";
+import CustomersAPI from "./../services/customersAPI";
+import InvoicesAPI from "./../services/invoicesAPI";
 import { toast } from "react-toastify";
 import FormContentLoader from "../components/loaders/FormContentLoader";
 
@@ -13,14 +13,14 @@ const InvoicePage = ({ history, match }) => {
   const [invoice, setInvoice] = useState({
     amount: "",
     customer: "",
-    status: "SENT"
+    status: "SENT",
   });
   const [customers, setCustomers] = useState([]);
   const [editing, setEditing] = useState(false);
   const [errors, setErrors] = useState({
     amount: "",
     customer: "",
-    status: ""
+    status: "",
   });
   const [loading, setLoading] = useState(true);
 
@@ -39,7 +39,7 @@ const InvoicePage = ({ history, match }) => {
   };
 
   // Récupération d'une facture
-  const fetchInvoice = async id => {
+  const fetchInvoice = async (id) => {
     try {
       const { amount, status, customer } = await InvoicesAPI.find(id);
       setInvoice({ amount, status, customer: customer.id });
@@ -70,7 +70,7 @@ const InvoicePage = ({ history, match }) => {
   };
 
   // Gestion de la soumission du formulaire
-  const handleSubmit = async event => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
 
     try {
@@ -123,7 +123,7 @@ const InvoicePage = ({ history, match }) => {
             error={errors.customer}
             onChange={handleChange}
           >
-            {customers.map(customer => (
+            {customers.map((customer) => (
               <option key={customer.id} value={customer.id}>
                 {customer.firstName} {customer.lastName}
               </option>
