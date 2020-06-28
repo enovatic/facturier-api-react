@@ -1,6 +1,6 @@
 import axios from "axios";
 import jwtDecode from "jwt-decode";
-import { LOGIN_API } from "../config";
+import { LOGIN_API } from "../../config";
 
 /**
  * Déconnexion (suppression du token du localStorage et sur Axios)
@@ -17,8 +17,8 @@ function logout() {
 function authenticate(credentials) {
   return axios
     .post(LOGIN_API, credentials)
-    .then(response => response.data.token)
-    .then(token => {
+    .then((response) => response.data.token)
+    .then((token) => {
       // Je stocke le token dans mon localStorage
       window.localStorage.setItem("authToken", token);
       // On prévient Axios qu'on a maintenant un header par défaut sur toutes nos futures requetes HTTP
@@ -71,5 +71,5 @@ export default {
   authenticate,
   logout,
   setup,
-  isAuthenticated
+  isAuthenticated,
 };

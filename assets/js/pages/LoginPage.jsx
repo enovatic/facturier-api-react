@@ -1,5 +1,5 @@
 import React, { useState, useContext } from "react";
-import AuthAPI from "../services/authAPI";
+import AuthAPI from "./services/authAPI";
 import AuthContext from "../contexts/AuthContext";
 import Field from "../components/forms/Field";
 import { toast } from "react-toastify";
@@ -9,7 +9,7 @@ const LoginPage = ({ history }) => {
 
   const [credentials, setCredentials] = useState({
     username: "",
-    password: ""
+    password: "",
   });
   const [error, setError] = useState("");
 
@@ -20,7 +20,7 @@ const LoginPage = ({ history }) => {
   };
 
   // Gestion du submit
-  const handleSubmit = async event => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
 
     try {
