@@ -1,8 +1,9 @@
-import React, { useState, useEffect } from "react";
-import Field from "./../components/forms/Field";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import CustomersAPI from "./../services/customersAPI";
+import { toast } from "react-toastify";
 import FormContentLoader from "../components/loaders/FormContentLoader";
+import CustomersAPI from "../services/customersAPI";
+import Field from "./../components/forms/Field";
 
 const CustomerPage = ({ match, history }) => {
   const { id = "new" } = match.params;

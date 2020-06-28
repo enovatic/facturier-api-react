@@ -1,9 +1,9 @@
 import moment from "moment";
 import React, { useEffect, useState } from "react";
 import Pagination from "../components/Pagination";
+import InvoicesAPI from "../services/invoicesAPI";
 import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
-import InvoicesAPI from "./../services/invoicesAPI";
 import TableLoader from "../components/loaders/TableLoader";
 
 const STATUS_CLASSES = {
