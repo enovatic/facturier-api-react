@@ -12,6 +12,8 @@ import InvoicePage from "./pages/InvoicePage";
 import LoginPage from "./pages/LoginPage";
 import AuthAPI from "./services/authAPI";
 import RegisterPage from "./pages/RegisterPage";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 require("../css/app.css");
 
@@ -41,6 +43,7 @@ const App = () => {
           </Switch>
         </main>
       </HashRouter>
+      <ToastContainer position={toast.POSITION.BOTTOM_LEFT} />
     </AuthContext.Provider>
   );
 };
