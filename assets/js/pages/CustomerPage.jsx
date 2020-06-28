@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Field from "./../components/forms/Field";
 import { Link } from "react-router-dom";
-import CustomersAPI from "../services/customersAPI";
+import CustomersAPI from "./../services/customersAPI";
 import { toast } from "react-toastify";
 import FormContentLoader from "../components/loaders/FormContentLoader";
 
@@ -12,19 +12,19 @@ const CustomerPage = ({ match, history }) => {
     lastName: "",
     firstName: "",
     email: "",
-    company: ""
+    company: "",
   });
   const [errors, setErrors] = useState({
     lastName: "",
     firstName: "",
     email: "",
-    company: ""
+    company: "",
   });
   const [loading, setLoading] = useState(false);
   const [editing, setEditing] = useState(false);
 
   // Récupération du customer en fonction de l'identifiant
-  const fetchCustomer = async id => {
+  const fetchCustomer = async (id) => {
     try {
       const { firstName, lastName, email, company } = await CustomersAPI.find(
         id
@@ -53,7 +53,7 @@ const CustomerPage = ({ match, history }) => {
   };
 
   // Gestion de la soumission du formulaire
-  const handleSubmit = async event => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
 
     try {
