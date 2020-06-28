@@ -1,7 +1,7 @@
 import moment from "moment";
 import React, { useEffect, useState } from "react";
 import Pagination from "../components/Pagination";
-import InvoicesAPI from "../services/invoicesAPI";
+import InvoicesAPI from "./../services/invoicesAPI";
 import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
 import TableLoader from "../components/loaders/TableLoader";
@@ -9,16 +9,16 @@ import TableLoader from "../components/loaders/TableLoader";
 const STATUS_CLASSES = {
   PAID: "success",
   SENT: "primary",
-  CANCELLED: "danger"
+  CANCELLED: "danger",
 };
 
 const STATUS_LABELS = {
   PAID: "Payée",
   SENT: "Envoyée",
-  CANCELLED: "Annulée"
+  CANCELLED: "Annulée",
 };
 
-const InvoicesPage = props => {
+const InvoicesPage = (props) => {
   const [invoices, setInvoices] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [search, setSearch] = useState("");
@@ -42,7 +42,7 @@ const InvoicesPage = props => {
   }, []);
 
   // Gestion du changement de page
-  const handlePageChange = page => setCurrentPage(page);
+  const handlePageChange = (page) => setCurrentPage(page);
 
   // Gestion de la recherche
   const handleSearch = ({ currentTarget }) => {
@@ -51,10 +51,10 @@ const InvoicesPage = props => {
   };
 
   // Gestion de la suppression
-  const handleDelete = async id => {
+  const handleDelete = async (id) => {
     const originalInvoices = [...invoices];
 
-    setInvoices(invoices.filter(invoice => invoice.id !== id));
+    setInvoices(invoices.filter((invoice) => invoice.id !== id));
 
     try {
       await InvoicesAPI.delete(id);
@@ -66,11 +66,11 @@ const InvoicesPage = props => {
   };
 
   // Gestion du format de date
-  const formatDate = str => moment(str).format("DD/MM/YYYY");
+  const formatDate = (str) => moment(str).format("DD/MM/YYYY");
 
   // Gestion de la recherche :
   const filteredInvoices = invoices.filter(
-    i =>
+    (i) =>
       i.customer.firstName.toLowerCase().includes(search.toLowerCase()) ||
       i.customer.lastName.toLowerCase().includes(search.toLowerCase()) ||
       i.amount.toString().startsWith(search.toLowerCase()) ||
@@ -116,7 +116,7 @@ const InvoicesPage = props => {
         </thead>
         {!loading && (
           <tbody>
-            {paginatedInvoices.map(invoice => (
+            {paginatedInvoices.map((invoice) => (
               <tr key={invoice.id}>
                 <td>{invoice.chrono}</td>
                 <td>

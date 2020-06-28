@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
 import Pagination from "../components/Pagination";
-import CustomersAPI from "../services/customersAPI";
+import CustomersAPI from "./../services/customersAPI";
 import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
 import TableLoader from "../components/loaders/TableLoader";
 
-const CustomersPage = props => {
+const CustomersPage = (props) => {
   const [customers, setCustomers] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [search, setSearch] = useState("");
@@ -28,9 +28,9 @@ const CustomersPage = props => {
   }, []);
 
   // Gestion de la suppression d'un customer
-  const handleDelete = async id => {
+  const handleDelete = async (id) => {
     const originalCustomers = [...customers];
-    setCustomers(customers.filter(customer => customer.id !== id));
+    setCustomers(customers.filter((customer) => customer.id !== id));
 
     try {
       await CustomersAPI.delete(id);
@@ -42,7 +42,7 @@ const CustomersPage = props => {
   };
 
   // Gestion du changement de page
-  const handlePageChange = page => setCurrentPage(page);
+  const handlePageChange = (page) => setCurrentPage(page);
 
   // Gestion de la recherche
   const handleSearch = ({ currentTarget }) => {
@@ -54,7 +54,7 @@ const CustomersPage = props => {
 
   // Filtrage des customers en fonction de la recherche
   const filteredCustomers = customers.filter(
-    c =>
+    (c) =>
       c.firstName.toLowerCase().includes(search.toLowerCase()) ||
       c.lastName.toLowerCase().includes(search.toLowerCase()) ||
       c.email.toLowerCase().includes(search.toLowerCase()) ||
@@ -102,7 +102,7 @@ const CustomersPage = props => {
 
         {!loading && (
           <tbody>
-            {paginatedCustomers.map(customer => (
+            {paginatedCustomers.map((customer) => (
               <tr key={customer.id}>
                 <td>{customer.id}</td>
                 <td>
