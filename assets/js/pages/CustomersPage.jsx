@@ -1,16 +1,17 @@
 import React, { useEffect, useState } from "react";
+import Pagination from "../components/Pagination";
+import CustomersAPI from "../services/customersAPI";
 import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
 import TableLoader from "../components/loaders/TableLoader";
-import Pagination from "../components/Pagination";
-import CustomersAPI from "../services/customersAPI";
 
-const CustomersPage = (props) => {
+const CustomersPage = props => {
   const [customers, setCustomers] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [search, setSearch] = useState("");
   const [loading, setLoading] = useState(true);
 
+  // Permet d'aller récupérer les customers
   const fetchCustomers = async () => {
     try {
       const data = await CustomersAPI.findAll();
@@ -21,15 +22,15 @@ const CustomersPage = (props) => {
     }
   };
 
+  // Au chargement du composant, on va chercher les customers
   useEffect(() => {
     fetchCustomers();
   }, []);
 
-  // Gestion de la suppression
-  const handleDelete = async (id) => {
+  // Gestion de la suppression d'un customer
+  const handleDelete = async id => {
     const originalCustomers = [...customers];
-
-    setCustomers(customers.filter((customer) => customer.id !== id));
+    setCustomers(customers.filter(customer => customer.id !== id));
 
     try {
       await CustomersAPI.delete(id);
@@ -39,10 +40,10 @@ const CustomersPage = (props) => {
       toast.error("La suppression du client n'a pas pu fonctionner");
     }
   };
+
   // Gestion du changement de page
-  const handlePageChange = (page) => {
-    setCurrentPage(page);
-  };
+  const handlePageChange = page => setCurrentPage(page);
+
   // Gestion de la recherche
   const handleSearch = ({ currentTarget }) => {
     setSearch(currentTarget.value);
@@ -50,16 +51,17 @@ const CustomersPage = (props) => {
   };
 
   const itemsPerPage = 10;
+
   // Filtrage des customers en fonction de la recherche
   const filteredCustomers = customers.filter(
-    (c) =>
+    c =>
       c.firstName.toLowerCase().includes(search.toLowerCase()) ||
       c.lastName.toLowerCase().includes(search.toLowerCase()) ||
       c.email.toLowerCase().includes(search.toLowerCase()) ||
       (c.company && c.company.toLowerCase().includes(search.toLowerCase()))
   );
 
-  // pagination des données
+  // Pagination des données
   const paginatedCustomers = Pagination.getData(
     filteredCustomers,
     currentPage,
@@ -84,6 +86,7 @@ const CustomersPage = (props) => {
           placeholder="Rechercher ..."
         />
       </div>
+
       <table className="table table-hover">
         <thead>
           <tr>
@@ -92,14 +95,14 @@ const CustomersPage = (props) => {
             <th>Email</th>
             <th>Entreprise</th>
             <th className="text-center">Factures</th>
-            <th className="text-center">Montent total</th>
+            <th className="text-center">Montant total</th>
             <th />
           </tr>
         </thead>
 
         {!loading && (
           <tbody>
-            {paginatedCustomers.map((customer) => (
+            {paginatedCustomers.map(customer => (
               <tr key={customer.id}>
                 <td>{customer.id}</td>
                 <td>
@@ -118,17 +121,10 @@ const CustomersPage = (props) => {
                   {customer.totalAmount.toLocaleString()} €
                 </td>
                 <td>
-                  <Link
-                    to={"/customers/" + customer.id}
-                    className="btn btn-sm btn-outline-primary mr-1"
-                  >
-                    Editer
-                  </Link>
-                  &nbsp;
                   <button
                     onClick={() => handleDelete(customer.id)}
                     disabled={customer.invoices.length > 0}
-                    className="btn btn-sm btn-outline-danger"
+                    className="btn btn-sm btn-danger"
                   >
                     Supprimer
                   </button>
@@ -138,7 +134,9 @@ const CustomersPage = (props) => {
           </tbody>
         )}
       </table>
+
       {loading && <TableLoader />}
+
       {itemsPerPage < filteredCustomers.length && (
         <Pagination
           currentPage={currentPage}
@@ -149,11 +147,6 @@ const CustomersPage = (props) => {
       )}
     </>
   );
-};
-
-Pagination.getData = (items, currentPage, itemsPerPage) => {
-  const start = currentPage * itemsPerPage - itemsPerPage;
-  return items.slice(start, start + itemsPerPage);
 };
 
 export default CustomersPage;

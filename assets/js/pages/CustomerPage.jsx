@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React, { useState, useEffect } from "react";
+import Field from "./../components/forms/Field";
 import { Link } from "react-router-dom";
+import CustomersAPI from "../services/customersAPI";
 import { toast } from "react-toastify";
 import FormContentLoader from "../components/loaders/FormContentLoader";
-import CustomersAPI from "../services/customersAPI";
-import Field from "./../components/forms/Field";
 
 const CustomerPage = ({ match, history }) => {
   const { id = "new" } = match.params;
@@ -12,21 +12,19 @@ const CustomerPage = ({ match, history }) => {
     lastName: "",
     firstName: "",
     email: "",
-    company: "",
+    company: ""
   });
-
   const [errors, setErrors] = useState({
     lastName: "",
     firstName: "",
     email: "",
-    company: "",
+    company: ""
   });
-
-  const [editing, setEditing] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [editing, setEditing] = useState(false);
 
   // Récupération du customer en fonction de l'identifiant
-  const fetchCustomer = async (id) => {
+  const fetchCustomer = async id => {
     try {
       const { firstName, lastName, email, company } = await CustomersAPI.find(
         id
@@ -42,8 +40,8 @@ const CustomerPage = ({ match, history }) => {
   // Chargement du customer si besoin au chargement du composant ou au changement de l'identifiant
   useEffect(() => {
     if (id !== "new") {
-      setEditing(true);
       setLoading(true);
+      setEditing(true);
       fetchCustomer(id);
     }
   }, [id]);
@@ -55,7 +53,7 @@ const CustomerPage = ({ match, history }) => {
   };
 
   // Gestion de la soumission du formulaire
-  const handleSubmit = async (event) => {
+  const handleSubmit = async event => {
     event.preventDefault();
 
     try {
@@ -89,6 +87,7 @@ const CustomerPage = ({ match, history }) => {
       {(!editing && <h1>Création d'un client</h1>) || (
         <h1>Modification du client</h1>
       )}
+
       {loading && <FormContentLoader />}
       {!loading && (
         <form onSubmit={handleSubmit}>
@@ -139,4 +138,5 @@ const CustomerPage = ({ match, history }) => {
     </>
   );
 };
+
 export default CustomerPage;

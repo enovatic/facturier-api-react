@@ -5,20 +5,20 @@ const Field = ({
   label,
   value,
   onChange,
-  placeholder,
+  placeholder = "",
   type = "text",
-  error = "",
+  error = ""
 }) => (
   <div className="form-group">
     <label htmlFor={name}>{label}</label>
     <input
       value={value}
+      onChange={onChange}
       type={type}
-      className={"form-control" + (error && " is-invalid")}
       placeholder={placeholder || label}
       name={name}
       id={name}
-      onChange={onChange}
+      className={"form-control" + (error && " is-invalid")}
     />
     {error && <p className="invalid-feedback">{error}</p>}
   </div>

@@ -9,20 +9,20 @@ import FormContentLoader from "../components/loaders/FormContentLoader";
 
 const InvoicePage = ({ history, match }) => {
   const { id = "new" } = match.params;
+
   const [invoice, setInvoice] = useState({
     amount: "",
     customer: "",
-    status: "SENT",
+    status: "SENT"
   });
-
   const [customers, setCustomers] = useState([]);
   const [editing, setEditing] = useState(false);
-  const [loading, setLoading] = useState(true);
   const [errors, setErrors] = useState({
     amount: "",
     customer: "",
-    status: "",
+    status: ""
   });
+  const [loading, setLoading] = useState(true);
 
   // Récupération des clients
   const fetchCustomers = async () => {
@@ -33,12 +33,13 @@ const InvoicePage = ({ history, match }) => {
 
       if (!invoice.customer) setInvoice({ ...invoice, customer: data[0].id });
     } catch (error) {
-      toast.error("Impossible de charger des clients");
+      toast.error("Impossible de charger les clients");
       history.replace("/invoices");
     }
   };
+
   // Récupération d'une facture
-  const fetchInvoice = async (id) => {
+  const fetchInvoice = async id => {
     try {
       const { amount, status, customer } = await InvoicesAPI.find(id);
       setInvoice({ amount, status, customer: customer.id });
@@ -48,11 +49,13 @@ const InvoicePage = ({ history, match }) => {
       history.replace("/invoices");
     }
   };
-  // récupération de la liste des clients à chaque chargement du composant
+
+  // Récupération de la liste des clients à chaque chargement du composant
   useEffect(() => {
     fetchCustomers();
   }, []);
-  // Récupération de la bonne facture quand l'identifiant de l'url chang
+
+  // Récupération de la bonne facture quand l'identifiant de l'URL change
   useEffect(() => {
     if (id !== "new") {
       setEditing(true);
@@ -60,20 +63,20 @@ const InvoicePage = ({ history, match }) => {
     }
   }, [id]);
 
-  // Gestion de la soumission du formulaire
+  // Gestion des changements des inputs dans le formulaire
   const handleChange = ({ currentTarget }) => {
     const { name, value } = currentTarget;
     setInvoice({ ...invoice, [name]: value });
   };
 
-  const handleSubmit = async (event) => {
+  // Gestion de la soumission du formulaire
+  const handleSubmit = async event => {
     event.preventDefault();
 
     try {
       if (editing) {
         await InvoicesAPI.update(id, invoice);
         toast.success("La facture a bien été modifiée");
-        history.replace("/invoices");
       } else {
         await InvoicesAPI.create(invoice);
         toast.success("La facture a bien été enregistrée");
@@ -87,18 +90,20 @@ const InvoicePage = ({ history, match }) => {
         violations.forEach(({ propertyPath, message }) => {
           apiErrors[propertyPath] = message;
         });
-        setErrors(apiErrors);
 
+        setErrors(apiErrors);
         toast.error("Des erreurs dans votre formulaire");
       }
     }
   };
+
   return (
     <>
       {(editing && <h1>Modification d'une facture</h1>) || (
-        <h1>Création d'une nouvelle facture</h1>
+        <h1>Création d'une facture</h1>
       )}
       {loading && <FormContentLoader />}
+
       {!loading && (
         <form onSubmit={handleSubmit}>
           <Field
@@ -118,7 +123,7 @@ const InvoicePage = ({ history, match }) => {
             error={errors.customer}
             onChange={handleChange}
           >
-            {customers.map((customer) => (
+            {customers.map(customer => (
               <option key={customer.id} value={customer.id}>
                 {customer.firstName} {customer.lastName}
               </option>
