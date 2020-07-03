@@ -9,7 +9,7 @@ import CustomersPage from "./pages/CustomersPage";
 import HomePage from "./pages/HomePage";
 import InvoicesPage from "./pages/InvoicesPage";
 import LoginPage from "./pages/LoginPage";
-import AuthAPI from "./pages/services/authAPI";
+import AuthAPI from "./services/authAPI";
 import CustomerPage from "./pages/CustomerPage";
 import InvoicePage from "./pages/InvoicePage";
 import RegisterPage from "./pages/RegisterPage";
@@ -32,7 +32,7 @@ const App = () => {
     <AuthContext.Provider
       value={{
         isAuthenticated,
-        setIsAuthenticated,
+        setIsAuthenticated
       }}
     >
       <HashRouter>

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import Field from "./../components/forms/Field";
 import { Link } from "react-router-dom";
-import UsersAPI from "./services/usersAPI";
+import UsersAPI from "../services/usersAPI";
 import { toast } from "react-toastify";
 
 const RegisterPage = ({ history }) => {
@@ -10,7 +10,7 @@ const RegisterPage = ({ history }) => {
     lastName: "",
     email: "",
     password: "",
-    passwordConfirm: "",
+    passwordConfirm: ""
   });
 
   const [errors, setErrors] = useState({
@@ -18,7 +18,7 @@ const RegisterPage = ({ history }) => {
     lastName: "",
     email: "",
     password: "",
-    passwordConfirm: "",
+    passwordConfirm: ""
   });
 
   // Gestion des changements des inputs dans le formulaire
@@ -28,7 +28,7 @@ const RegisterPage = ({ history }) => {
   };
 
   // Gestion de la soumission
-  const handleSubmit = async (event) => {
+  const handleSubmit = async event => {
     event.preventDefault();
 
     const apiErrors = {};
@@ -54,7 +54,7 @@ const RegisterPage = ({ history }) => {
       const { violations } = error.response.data;
 
       if (violations) {
-        violations.forEach((violation) => {
+        violations.forEach(violation => {
           apiErrors[violation.propertyPath] = violation.message;
         });
         setErrors(apiErrors);

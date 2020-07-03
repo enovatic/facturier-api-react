@@ -2,16 +2,16 @@
 
 namespace App\Events;
 
-use App\Repository\InvoiceRepository;
-use Symfony\Component\Security\Core\Security;
+use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpKernel\KernelEvents;
 use ApiPlatform\Core\EventListener\EventPriorities;
-use App\Entity\Invoice;
-use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpKernel\Event\GetResponseForControllerResultEvent;
+use Symfony\Component\Security\Core\Security;
+use App\Repository\InvoiceRepository;
+use App\Entity\Invoice;
 
-class InvoiceChronoSubscriber implements EventSubscriberInterface {
-
+class InvoiceChronoSubscriber implements EventSubscriberInterface
+{
     private $security;
     private $repository;
 
@@ -28,22 +28,19 @@ class InvoiceChronoSubscriber implements EventSubscriberInterface {
         ];
     }
 
-    public function setChronoForInvoice (GetResponseForControllerResultEvent $event) {
-        
+    public function setChronoForInvoice(GetResponseForControllerResultEvent $event)
+    {
         $invoice = $event->getControllerResult();
         $method = $event->getRequest()->getMethod();
-        
-        if($invoice instanceof Invoice && $method === "POST") {
-            
+
+        if ($invoice instanceof Invoice && $method === "POST") {
             $nextChrono = $this->repository->findNextChrono($this->security->getUser());
             $invoice->setChrono($nextChrono);
 
-            if(empty($invoice->getSentAt())) {
+            // TODO : A déplacer dans une classe dédiée
+            if (empty($invoice->getSentAt())) {
                 $invoice->setSentAt(new \DateTime());
             }
         }
-        
-        
-
     }
-}  
+}
